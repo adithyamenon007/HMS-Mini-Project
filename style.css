@@ -91,3 +91,7 @@ footer {
     height: 65%;
     overflow: auto;
 }
+
+a.card-link:hover {
+    color: rgb(131, 100, 100);
+}

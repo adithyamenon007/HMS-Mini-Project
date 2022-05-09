@@ -1,6 +1,6 @@
 <?php
     $con = mysqli_connect("localhost", "root", "", "hospital") or die(mysqli_error($con));
-    $query = "SELECT * FROM `doctor-records`";
+    $query = "SELECT * FROM `appointments`";
     $query_result = mysqli_query($con, $query) or die(mysqli_error($con));
 ?>
 
@@ -37,13 +37,13 @@
                             <a href="index.php" class="nav-link rw-font">HOME</a>
                         </li>
                         <li class="nav-item me-3">
-                            <a href="doctor.php" class="nav-link active rw-font">DOCTOR</a>
+                            <a href="doctor.php" class="nav-link  rw-font">DOCTOR</a>
                         </li>
                         <li class="nav-item me-3">
                             <a href="patient.php" class="nav-link rw-font">PATIENT</a>
                         </li>
                         <li class="nav-item me-3">
-                            <a href="appointments.php" class="nav-link rw-font">APPOINTMENTS</a>
+                            <a href="appointments.php" class="nav-link active rw-font">APPOINTMENTS</a>
                         </li>
                         <li class="nav-item">
                             <a href="sessions.php" class="nav-link rw-font">SESSION LOGS</a>
@@ -55,7 +55,7 @@
         </nav>
 
         <div class="doc-title rw-global">
-            <h1>DOCTOR PAGE</h1>
+            <h1>APPOINTMENTS PAGE</h1>
         </div>
 
         <div class="container">
@@ -63,8 +63,7 @@
                 <div class="col-lg-4 offset-lg-4">
                     <div class="btn-group doc-list" role="group" aria-label="Basic example">
                         <button type="button" class="btn btn-primary doc-insert">Insert</button>
-                        <button type="button" class="btn btn-primary doc-delete">Delete</button>
-                        <button type="button" class="btn btn-primary doc-display">Display</button>
+                        <button type="button" class="btn btn-primary doc-delete">Complete</button>
                     </div>
                 </div>
             </div>
@@ -73,29 +72,21 @@
         <div class="container mt-3 doc-entry-box">
             <div class="row">
                 <div class="col-md-6 offset-md-3" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px">
-                    <form action="docEntry.php" method="post" class="doc-entry-form">
+                    <form action="appEntry.php" method="post" class="doc-entry-form">
                         <div class="form-header">
-                            <h4>Doctor Data Entry Form</h4>
+                            <h4>Appointment Entry Form</h4>
                         </div>
                         <div class="form-group mb-2">
-                            <label for="name">Enter Full Name</label>
-                            <input type="text" name="name" id="fullname" class="form-control" />
+                            <label for="pid">Patient ID</label>
+                            <input type="text" name="pid" id="pid" class="form-control" />
                         </div>
                         <div class="form-group mb-2">
-                            <label for="id">ID number</label>
-                            <input type="text" name="id" id="id" class="form-control" />
+                            <label for="did">Doctor ID</label>
+                            <input type="text" name="did" id="did" class="form-control" />
                         </div>
                         <div class="form-group mb-2">
-                            <label for="field">Field</label>
-                            <input type="text" name="field" id="field" class="form-control" />
-                        </div>
-                        <div class="form-group mb-2">
-                            <label for="email">Email ID</label>
-                            <input type="text" name="email" id="email" class="form-control" />
-                        </div>
-                        <div class="form-group mb-2">
-                            <label for="phone">Phone Number</label>
-                            <input type="text" name="phone" id="phone" class="form-control" />
+                            <label for="time">Time</label>
+                            <input type="text" name="time" id="time" class="form-control" />
                         </div>
                         <button class="btn btn-primary" name="submit">Enter Record</button>
                     </form>
@@ -106,47 +97,21 @@
         <div class="container mt-3 doc-delete-box hidden">
             <div class="row">
                 <div class="col-md-6 offset-md-3" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px">
-                    <form action="docDelete.php" method="post" class="doc-entry-form">
+                    <form action="appComplete.php" method="post" class="doc-entry-form">
                         <div class="form-header">
-                            <h4>Doctor Data Deletion Form</h4>
+                            <h4>Status Complete Form</h4>
                         </div>
                         <div class="form-group mb-2">
-                            <label for="ID">Enter Doctor's ID</label>
-                            <input type="text" name="ID" id="ID" class="form-control" />
+                            <label for="pid">Enter Patient's ID</label>
+                            <input type="text" name="pid" id="pid" class="form-control" />
                         </div>
-                        <button class="btn btn-primary">Delete Record</button>
+                        <div class="form-group mb-2">
+                            <label for="did">Enter Patient's ID</label>
+                            <input type="text" name="did" id="did" class="form-control" />
+                        </div>
+                        <button class="btn btn-primary">Complete Appointment</button>
                     </form>
                 </div>
-            </div>
-        </div>
-
-        <div class="container my-4 doc-overflow">
-            <div class="row">
-                <?php while($row = mysqli_fetch_array($query_result)){?>
-                <div class="doc-display-box col-6 hidden" style="background-color: white;">
-                    <div class="row pt-3">
-                        <div class="col-md-5 offset-md-2">
-                            <h4><?php echo $row['Full-Name']?></h4>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 offset-md-2">ID:</div>
-                        <div class="col-md-2"><?php echo $row['Hospital-ID']?></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 offset-md-2">Designation:</div>
-                        <div class="col-md-2"><?php echo $row['Designation']?></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 offset-md-2">Email:</div>
-                        <div class="col-md-2"><?php echo $row['Email']?></div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-2 offset-md-2">Contact:</div>
-                        <div class="col-md-2"><?php echo $row['Contact']?></div>
-                    </div>
-                </div>
-                <?php }?>
             </div>
         </div>
         <script
